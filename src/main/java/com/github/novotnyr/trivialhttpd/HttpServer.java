@@ -17,7 +17,7 @@ public class HttpServer {
 
         int port = 8080;
         if (args.length >= 2) {
-            port = Integer.parseInt(args[2]);
+            port = Integer.parseInt(args[1]);
         }
 
         ResourceHandler resourceHandler = new ResourceHandler(new FileResourceManager(new File(baseDirectory)));
