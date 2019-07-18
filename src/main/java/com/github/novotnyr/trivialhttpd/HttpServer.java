@@ -13,18 +13,20 @@ public class HttpServer {
             System.exit(1);
         }
 
-        String baseDirectory = args[0];
+        String baseDirectoryArg = args[0];
 
         int port = 8080;
         if (args.length >= 2) {
             port = Integer.parseInt(args[1]);
         }
 
-        ResourceHandler resourceHandler = new ResourceHandler(new FileResourceManager(new File(baseDirectory)));
+        File baseDirectory = new File(baseDirectoryArg);
+        ResourceHandler resourceHandler = new ResourceHandler(new FileResourceManager(baseDirectory));
+        FileErrorHandler rootHandler = new FileErrorHandler(baseDirectory, resourceHandler);
 
         Undertow server = Undertow.builder()
                 .addHttpListener(port, "localhost")
-                .setHandler(resourceHandler)
+                .setHandler(rootHandler)
                 .build();
 
         server.start();
